@@ -1,6 +1,8 @@
 $(function() {
    console.log( "document ready!" );
-   $("#slider").slider();
-   $("#ex10").slider({});
 
+   //Changes Displayed difficulty value
+   $("#rDiff").mousemove(function () {
+      $("#text").text($("#rDiff").val())
+  });
 });
