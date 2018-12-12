@@ -1,0 +1,10 @@
+.newIngredient {
+    padding-top: 5%;
+}
+#myForm {
+    padding-top: 5%;
+}
+
+newIngredient * {
+    padding: 20%;
+}
