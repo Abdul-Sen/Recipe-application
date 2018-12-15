@@ -48,7 +48,7 @@
         </div>
     </nav>
     <article class="container">
-        <form id="myForm" method="POST" enctype="multipart/form-data" action="/create/new">
+        <form id="myForm" method="POST" action="/create/new" enctype="multipart/form-data">
             <fieldset>
                 <legend id="1">New Recipe</legend>
                 <div class="row">
@@ -60,9 +60,9 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                                <label for="rDiff">Difficulty</label>
-                                <input type="range" class="form-control" value=0 min=0 max=5 id="rDiff" name="difficulty">
-                                <label id="text">0</label>
+                            <label for="rDiff">Difficulty</label>
+                            <input type="range" class="form-control" value=0 min=0 max=5 id="rDiff" name="difficulty">
+                            <label id="text">0</label>
                         </div>
                     </div>
                 </div>
@@ -71,17 +71,25 @@
                         <!--Text box for directions-->
                         <div class="form-group">
                             <label for="rDirections">Directions:</label>
-                        <textarea class="form-control" name="directions" id="rDirections" placeholder="Enter recipe instructions here!"></textarea>
-                    </div>
+                            <textarea class="form-control" name="directions" id="rDirections" placeholder="Enter recipe instructions here!"></textarea>
+                        </div>
                     </div>
                 </div>
                 <!--Use Jquery to add a + sign that takes in a new ingredient-->
                 <div class="row">
-                        <button type="button" class="btn btn-info col-md-2" id="newIng">New Ingredient</button>
+                    <button type="button" class="btn btn-outline-info col-md-2" id="newIng">New Ingredient</button>
                 </div>
                 <div class="newIngredient"></div>
+                <div class="row">
+                    <div class="form-group">
+                        <input type="file" class="form-control" name="foodPhoto" />
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-lg btn-success col-md-2 form-control">Submit</button>
 
-
+                    <input type="reset" class="btn btn-sm btn-secondary offset-1 col-md-1 form-control" value="reset">
+                </div>
             </fieldset>
         </form>
     </article>
