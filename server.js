@@ -4,6 +4,25 @@ const path = require(`path`);
 const multer = require('multer');
 const HTTP_PORT = 8080; //TODO: Add Heroku env
 const ds = require(`./dataService.js`);
+const exphbs = require(`express-handlebars`);
+
+app.engine('.hbs', exphbs({
+    extname: '.hbs',
+    defaultLayout: 'main',
+    helpers: {
+        equal: function (lvalue, rvalue, options) {
+            if (arguments.length < 3)
+                throw new Error("Handlebars Helper equal needs 2 parameters");
+            if (lvalue != rvalue) {
+                return options.inverse(this);
+            } else {
+                return options.fn(this);
+            }
+        },    
+    }
+})
+);
+app.set('view engine', '.hbs');
 
 app.use(express.static("public"));
 
@@ -20,33 +39,51 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.get(`/`, (req, res) => {
-    res.sendFile(path.join(__dirname, `/views/index.html`));
+    res.render(`index`);
 })
 
 app.get(`/create`, (req, res) => {
-    res.sendFile(path.join(__dirname, `/views/create.html`));
+    res.render(`create`);
 })
 
 app.post(`/create/new`, upload.single(`foodPhoto`), (req, res) => {
     req.body.filename = req.file.filename;
     req.body.difficulty = Number(req.body.difficulty);
     ds.addRecipe(req.body).then((result) => {
-        console.log(`inside ds.addRecipe THEN part, the returned value from function is: ${result}`);
+        console.log(result);
         res.redirect(`/`);
         return;
     }).catch((err) => {
+        console.log(err);
         res.send(err);
         return;
     });
 });
 
-app.get(`/view`,(req,res)=>{
-    res.sendFile(path.join(__dirname, `/views/view.html`));
+app.get(`/view`, (req, res) => {
+    ds.getAllRecipes().then((ObjReturn) => {
+        console.log(ObjReturn);
+        res.render(`view`, { data: ObjReturn });
+    }).catch((err) => {
+        console.log(`OOPS! Something went wrong with getAllRecipes ${err}`);
+        res.redirect(`/`);
+    });
+})
+
+app.get(`/viewFull/:id`, (req, res) => {
+
+    ds.getOneRecipe(req.params.id).then((ObjReturn) => {
+        console.log(ObjReturn);
+        res.render(`viewFull`, { data: ObjReturn });
+    }).catch((err) => {
+        console.log(`error! could not find recipe by that ID ${err}`);
+        res.render(`viewFull`);
+    });
 })
 
 
 app.get(`/temp`, (req, res) => {
-    res.sendFile(path.join(__dirname, `/views/temp.html`));
+    res.render(`temp`, { data: { visible: false } });
 })
 
 ds.initialize().then(() => {

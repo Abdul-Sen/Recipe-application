@@ -1,0 +1,6 @@
+<!--This partial loads proper CSS and JS based on view rendered-->
+{{#equal @exphbs.view "create"}}
+    <script src="/js/jquery-min.js"></script>
+    <script src="/js/create.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/create.css">
+{{/equal}}

@@ -42,3 +42,29 @@ module.exports.addRecipe = function (jsonData) {
     })
 };
 
+module.exports.getAllRecipes = function() {
+    return new Promise((resolve,reject)=>{
+        Recipe.find().exec().then((data)=>{
+            resolve(data);
+            return;
+        }).catch((err)=>{
+            reject(err);
+            return;
+        });
+    })
+}
+
+module.exports.getOneRecipe = function(RecipeID)
+{
+    return new Promise((resolve,reject)=>{
+        Recipe.findById(RecipeID,(err,result) =>{
+            if(err)
+            {
+                reject(`Could not find recipe by that ID ${err}`);
+                return;
+            }
+            resolve(result);
+            return;
+        })
+    })
+}

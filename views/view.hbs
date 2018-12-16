@@ -1,0 +1,15 @@
+<article class="container">
+    <div class="row">
+    {{#each data}}
+
+    <div class="card col-md-4" style="width: 18rem;">
+        <img class="card-img-top" src="/images/{{filename}}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <a href="/viewFull/{{_id}}" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {{/each}}
+    </div>
+
+</article>

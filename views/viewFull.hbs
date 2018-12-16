@@ -1,0 +1,11 @@
+<article class="container">
+    <img src="/images/{{data.filename}}" alt="{{data.name}} image" width="800px">
+    <h1>{{data.name}}</h1>
+    <h6>Difficulty Level {{data.difficulty}}</h6>
+    <ul>
+        {{#each data.ingredients}}
+        <li>{{this}} </li>
+        {{/each}}
+    </ul>
+    <p>{{data.directions}}</p>
+</article>
