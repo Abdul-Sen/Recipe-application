@@ -1,5 +1,5 @@
 <article class="container">
-    <img src="/images/{{data.filename}}" alt="{{data.name}} image" width="800px">
+    {{!-- <img src="/images/{{data.filename}}" alt="{{data.name}} image" width="800px">
     <h1>{{data.name}}</h1>
     <h6>Difficulty Level {{data.difficulty}}</h6>
     <ul>
@@ -7,5 +7,21 @@
         <li>{{this}} </li>
         {{/each}}
     </ul>
-    <p>{{data.directions}}</p>
+    <p>{{data.directions}}</p> --}}
+<div class="card mb-3">
+  <img class="card-img-top" src="/images/{{data.filename}}" alt="{{data.name}} image">
+  <div class="card-body">
+    <h5 class="card-title">{{data.name}}</h5>
+    <p class="card-text">{{data.directions}}</p>
+    <h6>Ingredients:</h6>
+    <ul>
+        {{#each data.ingredients}}
+        <li>{{this}} </li>
+        {{/each}}
+    </ul>
+    <a class="btn btn-outline-info" style="float: right;" href="/create/{{data._id}}">Update</a>
+    {{!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> --}}
+  </div>
+</div>
+
 </article>

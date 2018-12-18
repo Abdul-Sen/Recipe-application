@@ -50,8 +50,7 @@ app.post(`/create/new`, upload.single(`foodPhoto`), (req, res) => {
     req.body.filename = req.file.filename;
     req.body.difficulty = Number(req.body.difficulty);
     ds.addRecipe(req.body).then((result) => {
-        console.log(result);
-        res.redirect(`/`);
+        res.redirect(`/view`);
         return;
     }).catch((err) => {
         console.log(err);
@@ -60,9 +59,21 @@ app.post(`/create/new`, upload.single(`foodPhoto`), (req, res) => {
     });
 });
 
+app.post(`/create/update`,upload.single(`foodPhoto`),(req,res)=>{
+    console.log(req.body);
+    req.body.difficulty = Number(req.body.difficulty);
+    ds.UpdateRecipe(req.body).then((data)=>{
+        console.log(`inside success`);
+
+        res.redirect(`/view`);
+    }).catch((err)=>{
+        // console.log(`error! ${err}`);
+        res.redirect(`/view`);
+    });
+})
+
 app.get(`/view`, (req, res) => {
     ds.getAllRecipes().then((ObjReturn) => {
-        console.log(ObjReturn);
         res.render(`view`, { data: ObjReturn });
     }).catch((err) => {
         console.log(`OOPS! Something went wrong with getAllRecipes ${err}`);
@@ -70,10 +81,19 @@ app.get(`/view`, (req, res) => {
     });
 })
 
+app.get(`/create/:id`, (req,res)=>{
+    console.lo
+    ds.getOneRecipe(req.params.id).then((ObjReturn) => {
+        res.render(`create`, { data: ObjReturn });
+    }).catch((err) => {
+        console.log(`error! could not find recipe by that ID ${err}`);
+        res.render(`create`);
+    });
+})
+
 app.get(`/viewFull/:id`, (req, res) => {
 
     ds.getOneRecipe(req.params.id).then((ObjReturn) => {
-        console.log(ObjReturn);
         res.render(`viewFull`, { data: ObjReturn });
     }).catch((err) => {
         console.log(`error! could not find recipe by that ID ${err}`);
