@@ -76,33 +76,28 @@ module.exports.getOneRecipe = function (RecipeID) {
 }
 
 module.exports.UpdateRecipe = function (jsonData) {
-    console.log(typeof jsonData);
-    Recipe.update(
-        { _id : jsonData._id },
-        { $set: { this : jsonData } },
-        { multi: false }
-    ).exec().then((data) => {
-        resolve(data[0]);
+
+    //removing any empty data array element
+    for (let i = 0; i < jsonData.ingredients.length; i++) {
+        if (jsonData.ingredients[i].length < 1) {
+            console.log(jsonData.ingredients[i])
+            jsonData.ingredients.splice(i, 1);
+            console.log(jsonData.ingredients);
+        }
+    }
+    return Recipe.findOneAndUpdate({ _id: jsonData._id }, jsonData, { upsert: false }).exec().then((data) => {
+        return data;
     }).catch((err) => {
-        reject(`There was an error veryfying the user : ${err}`);
+        return `error occured ${err}`;
     });
 }
-      
-    //     Recipe.updateOne({_id: jsonData._id}, {$set: {this : jsonData}}).exec().
-    // }
-//     return new Promise((resolve, reject) => {
-//         // console.log(`inside update recipe<>>> Recived jsondata: ${jsonData}`);
-//         Recipe.updateOne(
-//             { _id: jsonData._id },
-//             { $set: { this: jsonData } }
-//         ).exec().
-//             then((response) => {
-//                 resolve(response);
-//                 return;
-//             }).catch((err) => {
-//                 reject(err);
-//                 return;
-//             });
-//     })
-// }
+
+module.exports.deleteRecipe = function (ui_id) {
+    return Recipe.remove({ _id: ui_id }).exec().then((data) => {
+        console.log(data);
+        return `Recipe REMOVED ${data}`;
+    }).catch((err) => {
+        return `Recipe NOT removed! ${err}`;
+    });
+}
 

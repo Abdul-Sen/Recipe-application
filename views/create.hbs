@@ -2,6 +2,7 @@
     {{#if data._id}}
     <form id="myForm" method="POST" action="/create/update" enctype="multipart/form-data">
     <input type="hidden" name="filename" value="{{data.filename}}">
+    <input type="hidden" name="_id" value="{{data._id}}">
     {{else}}
         <form id="myForm" method="POST" action="/create/new" enctype="multipart/form-data">
     {{/if}}
@@ -51,7 +52,7 @@
             {{#unless data._id}}
             <div class="row">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="foodPhoto" />
+                    <input type="file" class="form-control" required name="foodPhoto" />
                 </div>
             </div>
             {{/unless}}

@@ -5,8 +5,8 @@
     <div class="card col-md-4" style="width: 18rem;">
         <img class="card-img-top" src="/images/{{filename}}" alt="Card image cap" height="300px" width="300px">
         <div class="card-body">
-            <h5 class="card-title">{{name}}</h5>
-            <a href="/viewFull/{{_id}}" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">{{name}} <span style="font-weight: normal; float: right;">Difficulty: {{difficulty}} </span></h5>
+            <a href="/viewFull/{{_id}}" class="btn btn-primary" style="padding: .5em 2em .5em 2em;">View</a>
         </div>
     </div>
     {{/each}}

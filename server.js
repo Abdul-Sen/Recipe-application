@@ -29,23 +29,22 @@ app.use(express.static("public"));
 const storage = multer.diskStorage({
     destination: "./public/images/",
     filename: function (req, file, cb) {
-        // we write the filename as the current date down to the millisecond
-        // in a large web service this would possibly cause a problem if two people
-        // uploaded an image at the exact same time. A better way would be to use GUID's for filenames.
-        // this is a simple example.
         cb(null, Date.now() + path.extname(file.originalname));
     }
 });
 const upload = multer({ storage: storage });
 
+//renders main route
 app.get(`/`, (req, res) => {
     res.render(`index`);
 })
 
+//sends user to the CREATE part of CRUD
 app.get(`/create`, (req, res) => {
     res.render(`create`);
 })
 
+//gets data from CREATE part of CRUD
 app.post(`/create/new`, upload.single(`foodPhoto`), (req, res) => {
     req.body.filename = req.file.filename;
     req.body.difficulty = Number(req.body.difficulty);
@@ -59,19 +58,7 @@ app.post(`/create/new`, upload.single(`foodPhoto`), (req, res) => {
     });
 });
 
-app.post(`/create/update`,upload.single(`foodPhoto`),(req,res)=>{
-    console.log(req.body);
-    req.body.difficulty = Number(req.body.difficulty);
-    ds.UpdateRecipe(req.body).then((data)=>{
-        console.log(`inside success`);
-
-        res.redirect(`/view`);
-    }).catch((err)=>{
-        // console.log(`error! ${err}`);
-        res.redirect(`/view`);
-    });
-})
-
+//sends user to READ part of CRUD, showing all recipes in the database
 app.get(`/view`, (req, res) => {
     ds.getAllRecipes().then((ObjReturn) => {
         res.render(`view`, { data: ObjReturn });
@@ -81,8 +68,21 @@ app.get(`/view`, (req, res) => {
     });
 })
 
+
+//UPDATEs a recipe
+app.post(`/create/update`,upload.single(`foodPhoto`),(req,res)=>{
+    req.body.difficulty = Number(req.body.difficulty);
+    console.log(req.body);
+    ds.UpdateRecipe(req.body).then((data)=>{
+        console.log(`inside success`);
+        res.redirect(`/view`);
+    }).catch((err)=>{
+        res.redirect(`/view`);
+    });
+})
+
+//renders a recipe in create hbs so that user can UPDATE it (CRUD)
 app.get(`/create/:id`, (req,res)=>{
-    console.lo
     ds.getOneRecipe(req.params.id).then((ObjReturn) => {
         res.render(`create`, { data: ObjReturn });
     }).catch((err) => {
@@ -91,8 +91,20 @@ app.get(`/create/:id`, (req,res)=>{
     });
 })
 
-app.get(`/viewFull/:id`, (req, res) => {
+//deletes a recipe by specific id
+app.get(`/delete/:id`,(req,res)=>{
+    console.log(req.params.id);
+    ds.deleteRecipe(req.params.id).then((data)=>{
+        console.log(data);
+        res.redirect(`/view`);
+    }).catch((err)=>{
+        console.log(`could not delete: ${err}`);
+        res.redirect(`/view`);
+    })
+})
 
+//renders a full recipe (READ)
+app.get(`/viewFull/:id`, (req, res) => {
     ds.getOneRecipe(req.params.id).then((ObjReturn) => {
         res.render(`viewFull`, { data: ObjReturn });
     }).catch((err) => {
