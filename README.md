@@ -1,5 +1,7 @@
 # Personal-Web-Project
-**This is a work in progress**
+**This is a work in progress which means some of the precieved features are yet to be implimented.**
+
+
 A website that I am working on to have a solid grasp on some of the core web concepts outside of class and hopefully learn new things from.
 Libraries used:
 1-Express : To create HTTP routes
