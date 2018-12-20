@@ -1,0 +1,24 @@
+<article class="container">
+    <div class="mybox col-lg-4 offset-4">
+
+        <form id="myForm" method="POST" action="/login" enctype="application/x-www-form-urlencoded">
+            <div class="row">
+                <div class="form-group col-md-8 offset-2">
+                    <label for="usernameID">Username</label>
+                    <input class="form-control" type="text" placeholder="Enter Username" id="usernameID" name="username">
+                </div>
+                <div class="form-group col-md-8 offset-2">
+                    <label for="passwordID">Password</label>
+                    <input class="form-control" type="password" placeholder="Enter Password" id="passwordID" name="password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <button class="form-control btn btn-primary col-md-3 offset-3" type="submit">Sign In</button>
+                    <a href="/signup" class="btn btn-light col-md-3 offset-1">Sign Up</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</article>

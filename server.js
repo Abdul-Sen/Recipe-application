@@ -5,6 +5,7 @@ const multer = require('multer');
 const HTTP_PORT = 8080; //TODO: Add Heroku env
 const ds = require(`./dataService.js`);
 const exphbs = require(`express-handlebars`);
+const bodyParser = require('body-parser');
 
 app.engine('.hbs', exphbs({
     extname: '.hbs',
@@ -33,6 +34,8 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //renders main route
 app.get(`/`, (req, res) => {
@@ -113,6 +116,28 @@ app.get(`/viewFull/:id`, (req, res) => {
     });
 })
 
+//Displays the login page to the user
+app.get(`/login`,(req,res)=>{
+    res.render(`login`);
+})
+
+//get login information and process it to verify if the details were correct
+app.post(`/login`,(req,res)=>{
+    console.log(req.body);
+    res.redirect(`/`); //TEMP
+    //TODO: Add a dataservice authicator
+})
+
+//sends user to signup page so user can create and POST to /signup
+app.get(`/signup`, (req,res)=>{
+    res.render(`signup`);
+})
+
+//gets signup information and authenticates if it meets the requirements
+app.post(`/signup`, (req,res)=>{
+    console.log(req.body);
+    res.redirect(`/`);
+})
 
 app.get(`/temp`, (req, res) => {
     res.render(`temp`, { data: { visible: false } });

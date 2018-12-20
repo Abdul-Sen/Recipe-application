@@ -1,0 +1,52 @@
+<article class="container">
+    <div class="myBox col-lg-10 offset-1">
+        <form method="POST" enctype="application/x-www-form-urlencoded" action="/signup">
+            <fieldset>
+                <legend>Personal Details</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-5 offset-1">
+                        <label for="fnameID">First Name</label>
+                        <input type="text" id="fnameID" class="form-control" name="fname" placeholder="Enter Your First Name">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="lnameID">Last Name <span style="font: italic;">(Optional)</span></label>
+                        <input type="text" id="fnameID" class="form-control" name="lname" placeholder="Enter Your Last Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="age" class="offset-1">Date of Birth</label>
+                    <input type="date" class="form-control col-md-4 offset-1">
+                </div>
+                </fieldset>
+
+                <div class="form-row ">
+                    <div class="form-group col-md-3 offset-1">
+                        <input type="text" id="streetAddressID" class="form-control" name="streetAddress" placeholder="Street Address">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="text" name="city" class="form-control" placeholder="City">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="text" class="form-control" name="postal" max="4" placeholder="Postal Code">
+                    </div>
+
+                </div>
+            <div class="form-group col-md-6 offset-3">
+                <label for="user">Username</label>
+                <input type="text" id="user" class="form-control" name="username" placeholder="Enter Your New Username">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="passwordID" class="offset-4">Password</label>
+                    <input type="text" id="passwordID" class="form-control col-md-6 offset-4" name="password"
+                        placeholder="Enter Your New Password">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="passwordID2">Re-enter</label>
+                    <input type="text" id="passwordID2" class="form-control col-md-6" name="password2" placeholder="Re-enter password">
+                </div>
+            </div>
+            <div class="form-group"></div>
+        </form>
+    </div>
+</article>
