@@ -1,3 +1,8 @@
 .myBox {
+    margin-top: 7%;
+    margin-bottom: 7%;
+    padding-bottom: 30px;
+    padding-top: 20px;
     background-color: antiquewhite;
+    box-shadow: 0em 0em .3em .1em;
 }

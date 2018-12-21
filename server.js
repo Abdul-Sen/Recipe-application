@@ -4,6 +4,7 @@ const path = require(`path`);
 const multer = require('multer');
 const HTTP_PORT = process.env.PORT || 8080; //TODO: Add Heroku env
 const ds = require(`./dataService.js`);
+const dsAuth = require(`./dsAuth.js`);
 const exphbs = require(`express-handlebars`);
 const bodyParser = require('body-parser');
 
@@ -143,11 +144,23 @@ app.get(`/temp`, (req, res) => {
     res.render(`temp`, { data: { visible: false } });
 })
 
-ds.initialize().then(() => {
-    app.listen(HTTP_PORT, () => {
-        console.log(`listening on ${HTTP_PORT}`);
-    })
-    console.log(`successfully connected to MongoDB`);
-}).catch((err) => {
-    console.log(`unable to connect to MongoDB ${err}`);
-});
+// ds.initialize().then(() => {
+//     app.listen(HTTP_PORT, () => {
+//         console.log(`listening on ${HTTP_PORT}`);
+//     })
+//     console.log(`successfully connected to MongoDB`);
+// }).catch((err) => {
+//     console.log(`unable to connect to MongoDB ${err}`);
+// });
+
+ds.initialize().then(()=>{
+    dsAuth.initialize().then(()=>{
+        app.listen(HTTP_PORT,()=>{
+            console.log(`listening on ${HTTP_PORT}`);
+        });
+    }).catch((err)=>{
+        console.log(`could not connect to Users database`);
+    });
+}).catch((err)=>{
+    console.log(`could not connect to recipe db ${err}`);
+})

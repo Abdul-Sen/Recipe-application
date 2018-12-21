@@ -1,5 +1,5 @@
 <article class="container">
-    <div class="myBox col-lg-10 offset-1">
+    <div class="myBox rounded col-lg-10 offset-1">
         <form method="POST" enctype="application/x-www-form-urlencoded" action="/signup">
             <fieldset>
                 <legend>Personal Details</legend>
@@ -15,9 +15,8 @@
                 </div>
                 <div class="form-group">
                     <label for="age" class="offset-1">Date of Birth</label>
-                    <input type="date" class="form-control col-md-4 offset-1">
+                    <input type="date" name="DoB" class="form-control col-md-4 offset-1">
                 </div>
-                </fieldset>
 
                 <div class="form-row ">
                     <div class="form-group col-md-3 offset-1">
@@ -31,22 +30,34 @@
                     </div>
 
                 </div>
-            <div class="form-group col-md-6 offset-3">
-                <label for="user">Username</label>
+            </fieldset>
+            <fieldset>
+                <legend >Account Details</legend>
+                <div class="form-row ">
+            <div class="form-group col-md-4 offset-1">
+                <label for="user" >Username</label>
                 <input type="text" id="user" class="form-control" name="username" placeholder="Enter Your New Username">
             </div>
-            <div class="form-row">
+            <div class="form-group col-md-5">
+                <label for="emailID">E-mail</label>
+                <input type="text" id="emailID" name="email" class="form-control" placeholder="Enter Your New E-mail">
+            </div>
+            </div>
+            <div class="form-row col-md-10">
                 <div class="form-group col-md-6">
-                    <label for="passwordID" class="offset-4">Password</label>
-                    <input type="text" id="passwordID" class="form-control col-md-6 offset-4" name="password"
+                    <label for="passwordID" class="offset-2">Password</label>
+                    <input type="password" id="passwordID" class="form-control col-md-8 offset-2" name="password"
                         placeholder="Enter Your New Password">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="passwordID2">Re-enter</label>
-                    <input type="text" id="passwordID2" class="form-control col-md-6" name="password2" placeholder="Re-enter password">
+                    <input type="password" id="passwordID2" class="form-control col-md-8" name="password2" placeholder="Re-enter password">
                 </div>
             </div>
-            <div class="form-group"></div>
+            </fieldset>
+            <dvi class="form-row">
+              <button type="submit" class="btn btn-primary offset-10">Submit</button>
+              </dvi>
         </form>
     </div>
 </article>
