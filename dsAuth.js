@@ -6,14 +6,14 @@ var UserSchema = new Schema({
     "fname": {
         type: String,
         required: function() {
-            /^[A-Za-z]+$/.test(this);
+            return (/^[A-Za-z]+$/.test(this.fname) && this.fname.length > 1)
         },
-        required: [true, "First Name Missing!"]
+     //   required: [true, "First Name Missing!"]
     },
     "lname": {
         type: String,
         required: function() {
-            /^[A-Za-z]+$/.test(this);
+           return /^[A-Za-z]+$/.test(this.lname); //characters only, from start to end, + rep more than one occurance
         },
         required: false
     },
@@ -21,15 +21,36 @@ var UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    "streetAddress": String,
-    "city": String,
-    "postal": String,
-    "email": String,
+    "streetAddress": {
+        type: String,
+        maxlength:30
+    },
+    "city": {
+        type: String,
+        maxlength:30
+    },
+    "postal": {
+        type: String,
+        maxlength:30
+    },
+    "email": {
+        type: String,
+        maxlength:30
+    },
     "username": {
         unique: true,
-        type: String
+        type: String,
+        minlength: 3,
+        maxlength: 20,
+        required: true
     },
-    "password": String
+    "password": {
+        type: String,
+        required: function() {
+           return /[#$@!%&*?A-Za-z0-9]{6,}/.test(this.password); //min 6, needs a special char,cap letter, small letter, 1 number
+        },
+        required: true
+    }
 });
 
 let User;
@@ -51,20 +72,12 @@ module.exports.initialize = function () {
 
 module.exports.creaUser = function(GivenData) {
     let NewUser = new User(GivenData);
-    return new Promise((resolve,reject)=>{
-        if(GivenData.fname.length>0 && /[A-Za-z]/g.test(GivenData.fname) == true)
-        {
-            reject(`Characters only!`);
-        }
-        if(GivenData.lname.length>0 && /[A-Za-z]/g.test(GivenData.lname) == true)
-        {
-            reject(`Characters only!`);
-        }
-    })
-
+    //Assuming there is no password 2 to match with
     return NewUser.save().then((data)=>{
+        if(data != `E11000`)
         return `Successfully created a new user ${data}`;
+        else return data;
     }).catch((err)=>{
-        return `Failed to create a new user ${err}`;
+        return `Failed to create a new user ${err}`;//Might need to just return err
     });
 }

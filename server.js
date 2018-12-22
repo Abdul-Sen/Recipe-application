@@ -137,7 +137,13 @@ app.get(`/signup`, (req,res)=>{
 //gets signup information and authenticates if it meets the requirements
 app.post(`/signup`, (req,res)=>{
     console.log(req.body);
-    res.redirect(`/`);
+    dsAuth.creaUser(req.body).then((data)=>{
+        console.log(`successfully created new user ${data}`);
+        res.redirect(`/login`);
+    }).catch((err)=>{
+        console.log(`error creating user ${err}`);
+        res.redirect(`/login`);
+    })
 })
 
 app.get(`/temp`, (req, res) => {
