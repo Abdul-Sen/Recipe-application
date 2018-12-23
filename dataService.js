@@ -38,9 +38,7 @@ module.exports.addRecipe = function (jsonData) {
         //removing any empty data array element
         for (let i = 0; i < jsonData.ingredients.length; i++) {
             if (jsonData.ingredients[i].length < 1) {
-                console.log(jsonData.ingredients[i])
                 jsonData.ingredients.splice(i, 1);
-                console.log(jsonData.ingredients);
             }
         }
         let newRecipe = new Recipe(jsonData);
@@ -80,9 +78,7 @@ module.exports.UpdateRecipe = function (jsonData) {
     //removing any empty data array element
     for (let i = 0; i < jsonData.ingredients.length; i++) {
         if (jsonData.ingredients[i].length < 1) {
-            console.log(jsonData.ingredients[i])
             jsonData.ingredients.splice(i, 1);
-            console.log(jsonData.ingredients);
         }
     }
     return Recipe.findOneAndUpdate({ _id: jsonData._id }, jsonData, { upsert: false }).exec().then((data) => {
@@ -94,7 +90,6 @@ module.exports.UpdateRecipe = function (jsonData) {
 
 module.exports.deleteRecipe = function (ui_id) {
     return Recipe.remove({ _id: ui_id }).exec().then((data) => {
-        console.log(data);
         return `Recipe REMOVED ${data}`;
     }).catch((err) => {
         return `Recipe NOT removed! ${err}`;

@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 var UserSchema = new Schema({
     "fname": {
         type: String,
-        required: function() {
+        required: function () {
             return (/^[A-Za-z]+$/.test(this.fname) && this.fname.length > 1)
         },
-     //   required: [true, "First Name Missing!"]
+        //   required: [true, "First Name Missing!"]
     },
     "lname": {
         type: String,
-        required: function() {
-           return /^[A-Za-z]+$/.test(this.lname); //characters only, from start to end, + rep more than one occurance
+        required: function () {
+            return /^[A-Za-z]+$/.test(this.lname); //characters only, from start to end, + rep more than one occurance
         },
         required: false
     },
@@ -23,19 +23,19 @@ var UserSchema = new Schema({
     },
     "streetAddress": {
         type: String,
-        maxlength:30
+        maxlength: 30
     },
     "city": {
         type: String,
-        maxlength:30
+        maxlength: 30
     },
     "postal": {
         type: String,
-        maxlength:30
+        maxlength: 30
     },
     "email": {
         type: String,
-        maxlength:30
+        maxlength: 30
     },
     "username": {
         unique: true,
@@ -46,8 +46,8 @@ var UserSchema = new Schema({
     },
     "password": {
         type: String,
-        required: function() {
-           return /[#$@!%&*?A-Za-z0-9]{6,}/.test(this.password); //min 6, needs a special char,cap letter, small letter, 1 number
+        required: function () {
+            return /[#$@!%&*?A-Za-z0-9]{6,}/.test(this.password); //min 6, needs a special char,cap letter, small letter, 1 number
         },
         required: true
     }
@@ -70,14 +70,35 @@ module.exports.initialize = function () {
     });
 };
 
-module.exports.creaUser = function(GivenData) {
+module.exports.createUser = function (GivenData) {
     let NewUser = new User(GivenData);
-    //Assuming there is no password 2 to match with
-    return NewUser.save().then((data)=>{
-        if(data != `E11000`)
-        return `Successfully created a new user ${data}`;
-        else return data;
-    }).catch((err)=>{
-        return `Failed to create a new user ${err}`;//Might need to just return err
+    return new Promise((resolve, reject) => {
+        NewUser.save().then((data) => {
+            resolve(data);
+            return;
+        }).catch((err) => {
+            reject(`Failed to create a new user ${err}`);
+            return;
+        });
+    })
+}
+
+module.exports.checkUser = function (GivenData) {
+    return new Promise((resolve, reject) => {
+        User.findOne({ username: GivenData.username }).then((data) => {
+            if(data.password != GivenData.password)
+                {
+                    reject(`Passwords not matching!` );
+                    return;
+                }
+            resolve(data);
+            return;
+
+        }).catch((err) => {
+            console.log(err);
+            reject(err);
+            return;
+        });
     });
+
 }
