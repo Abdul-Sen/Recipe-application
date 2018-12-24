@@ -89,12 +89,24 @@ app.post(`/create/new`, upload.single(`foodPhoto`), (req, res) => {
 
 //sends user to READ part of CRUD, showing all recipes in the database
 app.get(`/view`, ensureLogin, (req, res) => {
-    ds.getAllRecipes().then((ObjReturn) => {
-        res.render(`view`, { data: ObjReturn });
-    }).catch((err) => {
-        console.log(`OOPS! Something went wrong with getAllRecipes ${err}`);
-        res.redirect(`/`);
-    });
+    if(req.query.difficulty)
+    {
+        ds.getRecipeByDifficulty(req.query.difficulty).then((ObjReturn)=>{
+            res.render(`view`,{data: ObjReturn});
+        }).catch((err)=>{
+            console.log(`OOPS! Something went wrong with getAllRecipes ${err}`);
+            res.redirect(`/`);    
+        });
+    }
+    else
+    {
+        ds.getAllRecipes().then((ObjReturn) => {
+            res.render(`view`, { data: ObjReturn });
+        }).catch((err) => {
+            console.log(`OOPS! Something went wrong with getAllRecipes ${err}`);
+            res.redirect(`/`);
+        });
+    }
 })
 
 //UPDATEs a recipe

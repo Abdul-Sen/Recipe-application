@@ -73,6 +73,16 @@ module.exports.getOneRecipe = function (RecipeID) {
     })
 }
 
+module.exports.getRecipeByDifficulty = function(DiffNum)
+{
+   return Recipe.find({difficulty: DiffNum }).exec().then((data)=>{
+       return data;
+   }).catch((err)=>{
+       console.log(`could not find by difficulty ${err}`);
+       return err;
+   });
+}
+
 module.exports.UpdateRecipe = function (jsonData) {
 
     //removing any empty data array element
