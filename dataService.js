@@ -1,3 +1,4 @@
+const fetch = require(`node-fetch`);
 const mongoose = require(`mongoose`);
 const Schema = mongoose.Schema;
 
@@ -12,7 +13,6 @@ var RecipeSchema = new Schema({
         type: String,
         unique: true
     }
-
 });
 
 let Recipe; // to be defined on new connection (see initialize)
@@ -106,3 +106,33 @@ module.exports.deleteRecipe = function (ui_id) {
     });
 }
 
+
+/************************************
+ * MEAL API INTERACTION STARTS HERE 
+ * **********************************/
+
+ //gets a random recipe
+module.exports.getRandom = function() {
+    fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+    .then(res => res.json())
+    .then(body =>{
+        //Filtering ingreidents
+        let ingredientsArr = [];
+        for(let KEY in body.meals[0])
+        {
+            if(KEY.substr(0,13) == "strIngredient" && body.meals[0][KEY] != "")
+            {
+                ingredientsArr.push(body.meals[0][KEY]);
+            }
+        }
+        //creating a new recipe to display
+        let newRecipe = new Recipe({
+            name: body.meals[0].strMeal,
+            difficulty: 0,
+            directions: body.meals[0].strInstructions,
+            ingredients: ingredientsArr,
+            filename: body.meals[0].strMealThumb
+        });
+        console.log(newRecipe);
+    });
+}

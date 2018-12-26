@@ -186,6 +186,11 @@ app.get(`/logout`, (req,res)=>{
     req.session.reset();
     res.redirect('/');
 })
+
+app.get(`/random`,(req,res)=>{
+    ds.getRandom();
+    res.render(`random`,{});
+})
 app.get(`/temp`, (req, res) => {
     res.render(`temp`, { data: { visible: false } });
 })
@@ -202,4 +207,3 @@ ds.initialize().then(() => {
 }).catch((err) => {
     console.log(`could not connect to recipe db ${err}`);
 })
-
