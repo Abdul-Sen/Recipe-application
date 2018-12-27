@@ -113,7 +113,7 @@ module.exports.deleteRecipe = function (ui_id) {
 
  //gets a random recipe
 module.exports.getRandom = function() {
-    fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+   return fetch('https://www.themealdb.com/api/json/v1/1/random.php')
     .then(res => res.json())
     .then(body =>{
         //Filtering ingreidents
@@ -125,14 +125,18 @@ module.exports.getRandom = function() {
                 ingredientsArr.push(body.meals[0][KEY]);
             }
         }
-        //creating a new recipe to display
+        //creating a new recipe to display, not saving
         let newRecipe = new Recipe({
             name: body.meals[0].strMeal,
             difficulty: 0,
             directions: body.meals[0].strInstructions,
             ingredients: ingredientsArr,
-            filename: body.meals[0].strMealThumb
+            filename: body.meals[0].strMealThumb //just use it to display right now, once user says "save", then download the image and save it
         });
-        console.log(newRecipe);
+        return newRecipe;
+    }).catch((err)=>{
+        console.log(`oops! an error occured! ${err}`);
+        return err;
     });
 }
+

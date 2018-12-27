@@ -188,8 +188,15 @@ app.get(`/logout`, (req,res)=>{
 })
 
 app.get(`/random`,(req,res)=>{
-    ds.getRandom();
-    res.render(`random`,{});
+    ds.getRandom().then((NewRecipe)=>{
+        console.log(NewRecipe);//should show key here too
+        let isInDB = false;
+        res.render(`random`,{
+            data: NewRecipe
+        });
+    }).catch((err)=>{
+        console.log(err);
+    });
 })
 app.get(`/temp`, (req, res) => {
     res.render(`temp`, { data: { visible: false } });
