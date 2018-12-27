@@ -1,6 +1,7 @@
 const fetch = require(`node-fetch`);
 const mongoose = require(`mongoose`);
 const Schema = mongoose.Schema;
+const fs = require(`fs`);
 
 var RecipeSchema = new Schema({
     "name": String,
@@ -73,14 +74,13 @@ module.exports.getOneRecipe = function (RecipeID) {
     })
 }
 
-module.exports.getRecipeByDifficulty = function(DiffNum)
-{
-   return Recipe.find({difficulty: DiffNum }).exec().then((data)=>{
-       return data;
-   }).catch((err)=>{
-       console.log(`could not find by difficulty ${err}`);
-       return err;
-   });
+module.exports.getRecipeByDifficulty = function (DiffNum) {
+    return Recipe.find({ difficulty: DiffNum }).exec().then((data) => {
+        return data;
+    }).catch((err) => {
+        console.log(`could not find by difficulty ${err}`);
+        return err;
+    });
 }
 
 module.exports.UpdateRecipe = function (jsonData) {
@@ -111,32 +111,79 @@ module.exports.deleteRecipe = function (ui_id) {
  * MEAL API INTERACTION STARTS HERE 
  * **********************************/
 
- //gets a random recipe
-module.exports.getRandom = function() {
-   return fetch('https://www.themealdb.com/api/json/v1/1/random.php')
-    .then(res => res.json())
-    .then(body =>{
-        //Filtering ingreidents
-        let ingredientsArr = [];
-        for(let KEY in body.meals[0])
-        {
-            if(KEY.substr(0,13) == "strIngredient" && body.meals[0][KEY] != "")
-            {
-                ingredientsArr.push(body.meals[0][KEY]);
+//gets a random recipe
+module.exports.getRandom = function () {
+    return fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+        .then(res => res.json())
+        .then(body => {
+            //Filtering ingreidents
+            let ingredientsArr = [];
+            for (let KEY in body.meals[0]) {
+                if (KEY.substr(0, 13) == "strIngredient" && body.meals[0][KEY] != "") {
+                    ingredientsArr.push(body.meals[0][KEY]);
+                }
             }
-        }
-        //creating a new recipe to display, not saving
-        let newRecipe = new Recipe({
-            name: body.meals[0].strMeal,
-            difficulty: 0,
-            directions: body.meals[0].strInstructions,
-            ingredients: ingredientsArr,
-            filename: body.meals[0].strMealThumb //just use it to display right now, once user says "save", then download the image and save it
+
+            if(ingredientsArr.length<3)
+            {
+                body.meals[0].difficulty = 0;
+            }
+            else if(ingredientsArr.length<6)
+            {
+                body.meals[0].difficulty = 1;
+            }
+            else if(ingredientsArr.length<9)
+            {
+                body.meals[0].difficulty = 2;
+            }
+            else if(ingredientsArr.length<12)
+            {
+                body.meals[0].difficulty = 3;
+            }
+            else if(ingredientsArr.length<15)
+            {
+                body.meals[0].difficulty = 4;
+            }
+            else{
+                body.meals[0].difficulty = 5;
+            }
+
+            //creating a new recipe to display, not saving
+            let newRecipe = new Recipe({
+                name: body.meals[0].strMeal,
+                difficulty: body.meals[0].difficulty,
+                directions: body.meals[0].strInstructions,
+                ingredients: ingredientsArr,
+                filename: body.meals[0].strMealThumb //just use it to display right now, once user says "save", then download the image and save it
+            });
+            return newRecipe;
+        }).catch((err) => {
+            console.log(`oops! an error occured! ${err}`);
+            return err;
         });
-        return newRecipe;
-    }).catch((err)=>{
-        console.log(`oops! an error occured! ${err}`);
-        return err;
-    });
 }
 
+module.exports.saveRandom = function (obj) {
+    return new Promise((resolve, reject) => {
+        let imgName = obj.filename;
+        imgName = imgName.substr(imgName.lastIndexOf(`/`) + 1); //searches the last place where '/' is preasent and gets its index, then uses substr to cut until that point
+
+        fetch(obj.filename) //downloading image from the URL
+            .then(res => {
+                const dest = fs.createWriteStream(`./public/images/${imgName}`);
+                res.body.pipe(dest);
+            });
+
+        obj.filename = imgName;
+        obj.save()
+            .then((saved) => {
+                resolve(`saved new recipe`)
+                return;
+            })
+            .catch((err) => {
+                console.log(err);
+                reject(`failed to save new recipe`)
+                return;
+            });
+    })
+}

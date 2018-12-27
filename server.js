@@ -187,10 +187,10 @@ app.get(`/logout`, (req,res)=>{
     res.redirect('/');
 })
 
+let globalVar = {}; //used to tempoaraily stoe a random recipe
 app.get(`/random`,(req,res)=>{
     ds.getRandom().then((NewRecipe)=>{
-        console.log(NewRecipe);//should show key here too
-        let isInDB = false;
+        globalVar = NewRecipe;
         res.render(`random`,{
             data: NewRecipe
         });
@@ -198,10 +198,17 @@ app.get(`/random`,(req,res)=>{
         console.log(err);
     });
 })
-app.get(`/temp`, (req, res) => {
-    res.render(`temp`, { data: { visible: false } });
-})
 
+app.get(`/random/new`,(req,res)=>{
+    ds.saveRandom(globalVar).then((msg)=>{
+        console.log(msg);
+        globalVar = {};
+        res.redirect(`/view`);
+    }).catch((err)=>{
+        console.log(err);
+        res.send(`could not save`)
+    });
+})
 
 ds.initialize().then(() => {
     dsAuth.initialize().then(() => {
