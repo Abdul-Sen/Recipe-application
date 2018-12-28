@@ -203,7 +203,7 @@ app.get(`/random/new`,(req,res)=>{
     ds.saveRandom(globalVar).then((msg)=>{
         console.log(msg);
         globalVar = {};
-        res.redirect(`/view`);
+        res.redirect(`/random`);
     }).catch((err)=>{
         console.log(err);
         res.send(`could not save`)
