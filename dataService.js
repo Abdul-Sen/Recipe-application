@@ -118,12 +118,14 @@ module.exports.getRandom = function () {
         .then(body => {
             //Filtering ingreidents
             let ingredientsArr = [];
+            console.log(body);
             for (let KEY in body.meals[0]) {
-                if (KEY.substr(0, 13) == "strIngredient" && body.meals[0][KEY] != "") {
+                if (KEY.substr(0, 13) == "strIngredient" && (body.meals[0][KEY] != "" && body.meals[0][KEY] != null)) {
                     ingredientsArr.push(body.meals[0][KEY]);
                 }
             }
-
+            console.log(ingredientsArr);
+            //setting difficulty
             if(ingredientsArr.length<3)
             {
                 body.meals[0].difficulty = 0;
