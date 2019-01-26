@@ -221,3 +221,7 @@ ds.initialize().then(() => {
 }).catch((err) => {
     console.log(`could not connect to recipe db ${err}`);
 })
+
+app.use((req, res) => {
+    res.status(404).send("ERROR 404! The page your looking for does not exist!");
+});

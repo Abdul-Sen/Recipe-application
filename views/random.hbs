@@ -1,7 +1,7 @@
 <article class="container">
 
 <div class="card mb-3">
-  <img class="card-img-top" src="{{data.filename}}" alt="{{data.name}} image">
+  <img class="card-img-top" src="{{data.filename}}" alt="{{data.name}} image" style="height: 20%;">
   <div class="card-body">
     <h5 class="card-title">{{data.name}}</h5>
     <div class="card-text">
@@ -15,7 +15,9 @@
         {{/each}}
     </ul>
     <div class="row">
+      {{#if session.user}}
     <a class="btn btn-outline-info col-md-2 offset-10"  href="/random/new">Add to my list</a>
+    {{/if}}
     </div>
   </div>
 </div>
