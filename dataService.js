@@ -1,5 +1,8 @@
 const fetch = require(`node-fetch`);
 const mongoose = require(`mongoose`);
+require('dotenv').config();
+
+
 const Schema = mongoose.Schema;
 const fs = require(`fs`);
 
@@ -20,7 +23,7 @@ let Recipe; // to be defined on new connection (see initialize)
 
 module.exports.initialize = function () {
     return new Promise(function (resolve, reject) {
-        let db = mongoose.createConnection("mongodb://AbdulRehman:M7VG4eGn2C6i8Nb@ds139705.mlab.com:39705/recipe_information");
+        let db = mongoose.createConnection(process.env.DB_STRING);
         db.on('error', (err) => {
             reject(err); // reject the promise with the provided error
             return;
