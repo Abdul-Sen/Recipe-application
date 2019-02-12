@@ -8,9 +8,6 @@ const dsAuth = require(`./dsAuth.js`);
 const exphbs = require(`express-handlebars`);
 const bodyParser = require('body-parser');
 const clientSessions = require(`client-sessions`);
-const cors = require('cors');
-
-app.use(cors());
 
 app.engine('.hbs', exphbs({
     extname: '.hbs',
