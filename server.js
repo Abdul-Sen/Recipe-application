@@ -8,6 +8,9 @@ const dsAuth = require(`./dsAuth.js`);
 const exphbs = require(`express-handlebars`);
 const bodyParser = require('body-parser');
 const clientSessions = require(`client-sessions`);
+const cors = require('cors');
+
+app.use(cors());
 
 app.engine('.hbs', exphbs({
     extname: '.hbs',
@@ -188,6 +191,8 @@ app.get(`/logout`, (req,res)=>{
 })
 
 let globalVar = {}; //used to tempoaraily stoe a random recipe
+
+//displays a random recipe
 app.get(`/random`,(req,res)=>{
     ds.getRandom().then((NewRecipe)=>{
         globalVar = NewRecipe;
@@ -208,6 +213,10 @@ app.get(`/random/new`,(req,res)=>{
         console.log(err);
         res.send(`could not save`)
     });
+})
+  
+app.get(`/search`,(req,res)=>{
+    res.render(`search`);
 })
 
 ds.initialize().then(() => {
