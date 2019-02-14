@@ -102,7 +102,9 @@ module.exports.UpdateRecipe = function (jsonData) {
 }
 
 module.exports.deleteRecipe = function (ui_id) {
+    
     return Recipe.remove({ _id: ui_id }).exec().then((data) => {
+
         return `Recipe REMOVED ${data}`;
     }).catch((err) => {
         return `Recipe NOT removed! ${err}`;

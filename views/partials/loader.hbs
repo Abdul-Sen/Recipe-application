@@ -1,6 +1,5 @@
 <!--This partial loads proper CSS and JS based on view rendered-->
 {{#equal @exphbs.view "create"}}
-    <script src="/js/jquery-min.js"></script>
     <script src="/js/create.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/create.css">
 {{/equal}}
@@ -10,7 +9,6 @@
 {{/equal}}
 
 {{#equal @exphbs.view "viewFull"}}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/viewFull.css">
 {{/equal}}
 
@@ -25,7 +23,6 @@
 
 
 {{#equal @exphbs.view "search"}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/lib/lodash.min.js"></script>
     <script src="/lib/moment.min.js"></script>
   <script src="/js/search.js"></script>

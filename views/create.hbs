@@ -1,6 +1,6 @@
 <article class="container">
     {{#if data._id}}
-    <form id="myForm" method="POST" action="/create/update" enctype="multipart/form-data">
+    <form id="myForm" method="POST" action="/update" enctype="multipart/form-data">
     <input type="hidden" name="filename" value="{{data.filename}}">
     <input type="hidden" name="_id" value="{{data._id}}">
     {{else}}

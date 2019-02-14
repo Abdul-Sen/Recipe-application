@@ -110,7 +110,7 @@ app.get(`/view`, ensureLogin, (req, res) => {
 })
 
 //UPDATEs a recipe
-app.post(`/create/update`, upload.single(`foodPhoto`), (req, res) => {
+app.post(`/update`, upload.single(`foodPhoto`), (req, res) => {
     req.body.difficulty = Number(req.body.difficulty);
     ds.UpdateRecipe(req.body).then((data) => {
         res.redirect(`/view`);
@@ -120,7 +120,7 @@ app.post(`/create/update`, upload.single(`foodPhoto`), (req, res) => {
 })
 
 //renders a recipe in create hbs so that user can UPDATE it (CRUD)
-app.get(`/create/:id`, (req, res) => {
+app.get(`/update/:id`, (req, res) => {
     ds.getOneRecipe(req.params.id).then((ObjReturn) => {
         res.render(`create`, { data: ObjReturn });
     }).catch((err) => {
@@ -190,7 +190,7 @@ app.get(`/logout`, (req,res)=>{
 let globalVar = {}; //used to tempoaraily stoe a random recipe
 
 //displays a random recipe
-app.get(`/random`,(req,res)=>{
+app.get(`/view/random`,(req,res)=>{
     ds.getRandom().then((NewRecipe)=>{
         globalVar = NewRecipe;
         res.render(`random`,{
@@ -201,11 +201,11 @@ app.get(`/random`,(req,res)=>{
     });
 })
 
-app.get(`/random/new`,(req,res)=>{
+app.get(`/create/random/new`,(req,res)=>{
     ds.saveRandom(globalVar).then((msg)=>{
         console.log(msg);
         globalVar = {};
-        res.redirect(`/random`);
+        res.redirect(`/view/random`);
     }).catch((err)=>{
         console.log(err);
         res.send(`could not save`)
