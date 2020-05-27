@@ -2,7 +2,17 @@
 **This is a work in progress which means some of the precieved features are yet to be implimented.**
 
 
-A website that I am working on to have a solid grasp on some of the core web concepts outside of class and hopefully learn new things from.
+A server-side recipe web application showcasing CRUD operations in-action.
+
+* Allow users to view their recipies
+
+<img src="https://i.ibb.co/NTM0Vc1/recipe.png" alt="recipe" border="0" width="800px" height="400px">
+
+* Users can go to "random" tab and add a recipe they like to their profile
+
+* Users can then edit recipe under their profile to their liking
+<img src="https://i.ibb.co/m81tRbp/recipe3.png" alt="recipe3" border="0" width="300px" height="300px">
+
 Libraries used:
 1-Express : To create HTTP routes
 
